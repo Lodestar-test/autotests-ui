@@ -2,26 +2,23 @@ from pages.base_page import BasePage
 
 from playwright.sync_api import Page, expect
 
+
 class CoursesListPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
-
-        self.courses_title = page.get_by_test_id('courses-list-toolbar-title-text') # Заголовок и кнопка создания курса
+        self.courses_title = page.get_by_test_id('courses-list-toolbar-title-text')  # Заголовок и кнопка создания курса
         self.create_course_button = page.get_by_test_id('courses-list-toolbar-create-course-button')
 
-
-        self.course_title = page.get_by_test_id('course-widget-title-text') # Карточка курса
+        self.course_title = page.get_by_test_id('course-widget-title-text')  # Карточка курса
         self.course_image = page.get_by_test_id('course-preview-image')
         self.course_max_text = page.get_by_test_id('course-max-score-info-row-view-text')
         self.course_min_text = page.get_by_test_id('course-min-score-info-row-view-text')
         self.course_estimated_time_text = page.get_by_test_id('course-estimated-time-info-row-view-text')
 
-
         self.course_menu_button = page.get_by_test_id('course-view-menu-button')    # Меню курса
         self.course_edit_menu_button = page.get_by_test_id('course-view-edit-menu-item')
         self.course_delete_menu_button = page.get_by_test_id('course-view-delete-menu-item')
-
 
         self.empty_view_icon = page.get_by_test_id('courses-list-empty-view-icon')  # Пустой блок при отсутствии курсов
         self.empty_view_title = page.get_by_test_id('courses-list-empty-view-title-text')
@@ -59,7 +56,7 @@ class CoursesListPage(BasePage):
         expect(self.course_image.nth(index)).to_be_visible()
 
         expect(self.course_title.nth(index)).to_be_visible()
-        expect(self.courses_title.nth(index)).to_have_text(title)
+        expect(self.course_title.nth(index)).to_have_text(title)
 
         expect(self.course_max_text.nth(index)).to_be_visible()
         expect(self.course_max_text.nth(index)).to_have_text(f'Max score: {max_score}')
