@@ -2,12 +2,14 @@ from pages.base_page import BasePage
 from playwright.sync_api import Page, expect
 
 from components.navigation.navbar_component import NavbarComponent
+from components.navigation.sidebar_component import SidebarComponent
 
 
 class DashboardPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
+        self.sidebar = SidebarComponent(page)
         self.navbar = NavbarComponent(page)
 
         self.dashboard_title = page.get_by_test_id('dashboard-toolbar-title-text')
@@ -33,18 +35,15 @@ class DashboardPage(BasePage):
         expect(self.students_title).to_have_text('Students')
         expect(self.students_chart).to_be_visible()
 
-
     def check_visible_activities_chart(self):
         expect(self.activities_title).to_be_visible()
         expect(self.activities_title).to_have_text('Activities')
         expect(self.activities_chart).to_be_visible()
 
-
     def check_visible_courses_chart(self):
         expect(self.courses_title).to_be_visible()
         expect(self.courses_title).to_have_text('Courses')
         expect(self.courses_chart).to_be_visible()
-
 
     def check_visible_scores_chart(self):
         expect(self.scores_title).to_be_visible()
