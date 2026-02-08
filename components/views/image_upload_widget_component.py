@@ -15,18 +15,20 @@ class ImageUploadWidgetComponent(BaseComponent):
 
         self.preview_empty_view = EmptyViewComponent(page, identifier)
 
-        self.preview_image = Image(page, f'{identifier}-image-upload-widget-preview-image', 'Preview Image')
+        self.preview_image = Image(page, f'{identifier}-image-upload-widget-preview-image', 'Preview')
 
-        self.image_upload_info_icon = Icon(page, f'{identifier}-image-upload-widget-info-icon', 'Icon')
-        self.image_upload_info_title = Text(page, f'{identifier}-image-upload-widget-info-title-text', 'Title')
+        self.image_upload_info_icon = Icon(page, f'{identifier}-image-upload-widget-info-icon', 'Image upload info')
+        self.image_upload_info_title = Text(
+            page, f'{identifier}-image-upload-widget-info-title-text', 'Image upload info title'
+        )
         self.image_upload_info_description = Text(
-            page, f'{identifier}-image-upload-widget-info-description-text', 'Description'
+            page, f'{identifier}-image-upload-widget-info-description-text', 'Image upload info description'
         )
 
-        self.upload_button = Button(page, f'{identifier}-image-upload-widget-upload-button', 'Upload button')
-        self.remove_button = Button(page, f'{identifier}-image-upload-widget-remove-button', 'Remove button')
+        self.upload_button = Button(page, f'{identifier}-image-upload-widget-upload-button', 'Upload image')
+        self.remove_button = Button(page, f'{identifier}-image-upload-widget-remove-button', 'Remove image')
         # локатор загрузки картинки
-        self.upload_input = FileInput(page, f'{identifier}-image-upload-widget-input', 'Image upload')
+        self.upload_input = FileInput(page, f'{identifier}-image-upload-widget-input', 'Upload')
 
     def check_visible(self, is_image_uploaded: bool = False):  # check_visible_image_upload_view -> check_visible
         self.image_upload_info_icon.check_visible()
