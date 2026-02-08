@@ -3,14 +3,13 @@ from elements.button import Button
 from elements.link import Link
 from elements.text import Text
 from pages.base_page import BasePage
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 
 
 class LoginPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        #self.login_form = LoginFormComponent(page, 'login-form')
         self.login_form = LoginFormComponent(page)
 
         self.login_button = Button(page, 'login-page-login-button', 'Login')

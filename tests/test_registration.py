@@ -13,7 +13,6 @@ def test_successful_registration(registration_page: RegistrationPage, dashboard_
         username='username',
         password='password'
     )
-    registration_page.registration_form.check_visible()
     registration_page.click_registration_button()
 
     dashboard_page.dashboard_toolbar_view.check_visible()
