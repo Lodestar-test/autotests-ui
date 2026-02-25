@@ -48,3 +48,52 @@ class TestCourses:
             min_score='10'
         )
 
+    def test_edit_course(self, courses_list_page: CoursesListPage, create_course_page: CreateCoursePage):
+        create_course_page.vizit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create')
+        create_course_page.create_course_form.fill(
+            title='Test data1',
+            estimated_time='2 weeks',
+            description='Test description1',
+            max_score='100',
+            min_score='10'
+        )
+        create_course_page.image_upload_widget.upload_preview_image(file='./testdata/files/image.png')
+        create_course_page.create_course_toolbar_view.click_create_course_button()
+
+        # проверка отображения карточки курса c заданными данными на странице списка курсов
+        courses_list_page.course_view.check_visible(
+            index=0,
+            title='Test data1',
+            estimated_time='2 weeks',
+            max_score='100',
+            min_score='10'
+        )
+
+        courses_list_page.course_view_menu.click_edit(index=0)
+        create_course_page.create_course_form.fill(
+            title='Test data2',
+            estimated_time='1 month',
+            description='Test description2',
+            max_score='20',
+            min_score='5'
+        )
+
+        # проверка изменений всех отредактированных полей
+        create_course_page.create_course_form.check_visible(
+            title='Test data2',
+            estimated_time='1 month',
+            description='Test description2',
+            max_score='20',
+            min_score='5'
+        )
+        create_course_page.create_course_toolbar_view.click_create_course_button()
+
+        # проверка отображения карточки курса с обновленными данными на странице списка курсов
+        courses_list_page.course_view.check_visible(
+            index=0,
+            title='Test data2',
+            estimated_time='1 month',
+            max_score='20',
+            min_score='5'
+        )
+
