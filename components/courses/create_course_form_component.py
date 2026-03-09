@@ -3,6 +3,7 @@ from playwright.sync_api import Page
 
 from elements.input import Input
 from elements.textarea import Textarea
+import allure
 
 
 class CreateCourseFormComponent(BaseComponent):
@@ -16,6 +17,7 @@ class CreateCourseFormComponent(BaseComponent):
         self.max_score_input = Input(page, f'{identifier}-max-score-input', 'Max score')
         self.min_score_input = Input(page, f'{identifier}-min-score-input', 'Min score')
 
+    @allure.step('Check visible create course form')
     def check_visible(
             self,
             title: str,
@@ -39,6 +41,7 @@ class CreateCourseFormComponent(BaseComponent):
         self.min_score_input.check_visible()
         self.min_score_input.check_have_value(min_score)
 
+    @allure.step('Fill create course form with title "{title}"')  # все параметры, мне кажется, указывать излишне, а title стоит указать
     def fill(
             self,
             title: str,
