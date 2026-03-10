@@ -5,27 +5,14 @@ from pages.authentication.registration_page import RegistrationPage
 from _pytest.fixtures import SubRequest  # Импортируем класс SubRequest для аннотации
 import allure
 
+from tools.playwright.pages import initialize_playwright_page
+
 
 @pytest.fixture
 def chromium_page(request: SubRequest, playwright: Playwright) -> Page:
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context() # Создаем контекст для новой сессии браузера
-    context.tracing.start(screenshots=True, snapshots=True, sources=True)   # Включаем трейсинг
-
-    yield context.new_page()    # Открываем новую страницу в контексте
-    # yield browser.new_page()
-
-    # В данном случае request.node.name содержит название текущего автотеста
-    context.tracing.stop(path=f'./tracing/{request.node.name}.zip')  # Сохраняем трейсинг в файл)
-    browser.close() # Закрываем браузер
-
-    allure.attach.file(f'./tracing/{request.node.name}.zip', name='trace', extension='zip')
-
-# @pytest.fixture
-# def chromium_page() -> Page:
-#     with sync_playwright() as playwright:
-#         browser = playwright.chromium.launch(headless=False)
-#         yield browser.new_page()
+    yield from initialize_playwright_page(playwright, test_name=request.node.name)
+    # перенесли основной код фикстуры chromium_page и chromium_page_with_state ниже в ./tools/playwright/pages.py
+    # про yield from почитать https://stepik.org/lesson/1453356/step/5?unit=1472484
 
 
 @pytest.fixture(scope="session")
@@ -39,7 +26,6 @@ def initialize_browser_state(playwright: Playwright):
     registration_page.registration_form.fill(email='user.name@gmail.com', username='username', password='password')
     registration_page.click_registration_button()
 
-
     context.storage_state(path='browser-state.json')
     browser.close()
 
@@ -47,13 +33,8 @@ def initialize_browser_state(playwright: Playwright):
 @pytest.fixture(scope='function')
 # добавили request: SubRequest, чтобы подставлялось имя теста из метаданных
 def chromium_page_with_state(request: SubRequest, initialize_browser_state, playwright: Playwright) -> Page:
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context(storage_state='browser-state.json')
-    context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
-
-    yield context.new_page()
-
-    context.tracing.stop(path=f'./tracing/{request.node.name}.zip')  # Сохраняем трейсинг в файл)
-    browser.close()
-
-    allure.attach.file(f'./tracing/{request.node.name}.zip', name='trace', extension='zip')
+    yield from initialize_playwright_page(
+        playwright,
+        test_name=request.node.name,
+        storage_state='browser-state.json'
+    )
