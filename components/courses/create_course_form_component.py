@@ -41,7 +41,7 @@ class CreateCourseFormComponent(BaseComponent):
         self.min_score_input.check_visible()
         self.min_score_input.check_have_value(min_score)
 
-    @allure.step('Fill create course form with title "{title}"')  # все параметры, мне кажется, указывать излишне, а title стоит указать
+    @allure.step('Fill create course form')
     def fill(
             self,
             title: str,
