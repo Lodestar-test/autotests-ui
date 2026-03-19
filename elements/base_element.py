@@ -1,6 +1,7 @@
 from playwright.sync_api import Page, Locator, expect
 import allure
 
+
 class BaseElement:
     def __init__(self, page: Page, locator: str, name: str):
         self.page = page
@@ -11,11 +12,10 @@ class BaseElement:
     def type_of(self) -> str:
         return "base element"
 
-
     def get_locator(self, nth: int = 0, **kwargs) -> Locator:
         locator = self.locator.format(**kwargs)
         with allure.step(f'Getting locator with "data-testid={locator}" at index "{nth}"'):
-                return self.page.get_by_test_id(locator).nth(nth)
+            return self.page.get_by_test_id(locator).nth(nth)
 
     def click(self, nth: int = 0, **kwargs):
         with allure.step(f'Clicking {self.type_of} "{self.name}"'):

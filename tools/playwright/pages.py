@@ -9,7 +9,11 @@ def initialize_playwright_page(
 ) -> Page:
     browser = playwright.chromium.launch(headless=settings.headless)
     # Создаем контекст для новой сессии браузера, Указываем директорию для сохранения видеозаписей
-    context = browser.new_context(storage_state=storage_state, record_video_dir=settings.videos_dir)
+    context = browser.new_context(
+        base_url=settings.get_base_url(),
+        storage_state=storage_state,
+        record_video_dir=settings.videos_dir
+    )
     context.tracing.start(screenshots=True, snapshots=True, sources=True)  # Включаем трейсинг
     # Перенесли инициализацию страницы в отдельную переменную
     page = context.new_page()
