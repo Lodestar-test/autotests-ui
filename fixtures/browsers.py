@@ -10,21 +10,25 @@ from config import settings
 from tools.routes import AppRoute
 
 
-@pytest.fixture
-def chromium_page(request: SubRequest, playwright: Playwright) -> Page:
-    yield from initialize_playwright_page(playwright, test_name=request.node.name)
+@pytest.fixture(params=settings.browsers)
+def page(request: SubRequest, playwright: Playwright) -> Page:
+    yield from initialize_playwright_page(
+        playwright,
+        test_name=request.node.name,
+        browser_type=request.param
+    )
     # перенесли основной код фикстуры chromium_page и chromium_page_with_state ниже в ./tools/playwright/pages.py
     # про yield from почитать https://stepik.org/lesson/1453356/step/5?unit=1472484
 
 
 @pytest.fixture(scope="session")
 def initialize_browser_state(playwright: Playwright):
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=settings.headless)
     context = browser.new_context(base_url=settings.get_base_url())
     page = context.new_page()
 
     registration_page = RegistrationPage(page=page)
-    registration_page.vizit(AppRoute.REGISTRATION)
+    registration_page.visit(AppRoute.REGISTRATION)
     registration_page.registration_form.fill(
         email=settings.test_user.email,
         username=settings.test_user.username,
@@ -36,11 +40,12 @@ def initialize_browser_state(playwright: Playwright):
     browser.close()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(params=settings.browsers)
 # добавили request: SubRequest, чтобы подставлялось имя теста из метаданных
-def chromium_page_with_state(request: SubRequest, initialize_browser_state, playwright: Playwright) -> Page:
+def page_with_state(request: SubRequest, initialize_browser_state, playwright: Playwright) -> Page:
     yield from initialize_playwright_page(
         playwright,
         test_name=request.node.name,
+        browser_type=request.param,
         storage_state=settings.browser_state_file
     )

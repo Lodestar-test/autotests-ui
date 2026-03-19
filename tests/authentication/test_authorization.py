@@ -33,7 +33,7 @@ class TestAuthorization:
             dashboard_page: DashboardPage,
             registration_page: RegistrationPage,
     ):
-        registration_page.vizit(AppRoute.REGISTRATION)
+        registration_page.visit(AppRoute.REGISTRATION)
         registration_page.registration_form.fill(
             email=settings.test_user.email,
             username=settings.test_user.username,
@@ -68,7 +68,7 @@ class TestAuthorization:
     @allure.title('User login with wrong email or password')
     @allure.severity(Severity.CRITICAL)
     def test_wrong_email_or_password_authorization(self, login_page: LoginPage, email: str, password: str):
-        login_page.vizit(AppRoute.LOGIN)
+        login_page.visit(AppRoute.LOGIN)
         login_page.login_form.fill(email=email, password=password)
         login_page.click_login_button()
         login_page.check_visible_wrong_email_or_password_alert()
@@ -81,7 +81,7 @@ class TestAuthorization:
             login_page: LoginPage,
             registration_page: RegistrationPage
     ):
-        login_page.vizit(AppRoute.LOGIN)
+        login_page.visit(AppRoute.LOGIN)
         login_page.click_registration_link()
 
         registration_page.registration_form.check_visible(email="", username="", password="")

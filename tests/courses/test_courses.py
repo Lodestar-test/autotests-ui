@@ -26,7 +26,7 @@ class TestCourses:
     @allure.title('Check displaying of empty courses list')
     @allure.severity(Severity.NORMAL)
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):
-        courses_list_page.vizit(AppRoute.COURSES)
+        courses_list_page.visit(AppRoute.COURSES)
         courses_list_page.navbar.check_visible(settings.test_user.username)  # проверяем отображение компонента Navbar
         courses_list_page.sidebar.check_visible()  # проверяем отображение компонента Sidebar
         # проверяем отображение заголовка "Courses" и отображение кнопки создания курса (тулбар списка курсов):
@@ -36,7 +36,7 @@ class TestCourses:
     @allure.title("Create course")
     @allure.severity(Severity.CRITICAL)
     def test_create_course(self, courses_list_page: CoursesListPage, create_course_page: CreateCoursePage):
-        create_course_page.vizit(AppRoute.COURSES_CREATE)
+        create_course_page.visit(AppRoute.COURSES_CREATE)
         create_course_page.create_course_toolbar_view.check_visible()
         create_course_page.image_upload_widget.check_visible(is_image_uploaded=False)
         create_course_page.create_course_form.check_visible(
@@ -71,7 +71,7 @@ class TestCourses:
     @allure.title("Edit course")
     @allure.severity(Severity.CRITICAL)
     def test_edit_course(self, courses_list_page: CoursesListPage, create_course_page: CreateCoursePage):
-        create_course_page.vizit(AppRoute.COURSES_CREATE)
+        create_course_page.visit(AppRoute.COURSES_CREATE)
         create_course_page.create_course_form.fill(
             title='Test data1',
             estimated_time='2 weeks',

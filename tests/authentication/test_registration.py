@@ -26,7 +26,7 @@ class TestRegistration:
     @allure.title('Registration with correct email, username and password')
     @allure.severity(Severity.CRITICAL)
     def test_successful_registration(self, registration_page: RegistrationPage, dashboard_page: DashboardPage):
-        registration_page.vizit(AppRoute.REGISTRATION)
+        registration_page.visit(AppRoute.REGISTRATION)
         registration_page.registration_form.fill(
             email=settings.test_user.email,
             username=settings.test_user.username,

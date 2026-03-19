@@ -7,7 +7,7 @@ class BasePage:
     def __init__(self, page: Page):
         self.page = page
 
-    def vizit(self, url: str):
+    def visit(self, url: str):
         with allure.step(f'Opening the url "{url}"'):
             self.page.goto(url, wait_until='networkidle')
 
