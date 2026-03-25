@@ -1,5 +1,6 @@
 import logging
 
+
 def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
@@ -13,7 +14,3 @@ def get_logger(name: str) -> logging.Logger:
     logger.addHandler(handler)
 
     return logger
-
-logger = get_logger("PAGE")
-logger.info("Hello! From info")
-logger.warning("Hello! from warning")
