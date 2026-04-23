@@ -22,7 +22,7 @@ class TestData(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        extra='allow',  # Разрешаем дополнительные переменные в .env и окружении
+        extra='allow',  # Разрешаем дополнительные переменные в .env и  окружении
 
         env_file='.env',
         env_file_encoding='utf-8',
