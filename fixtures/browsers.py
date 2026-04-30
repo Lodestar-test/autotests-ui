@@ -1,12 +1,10 @@
 import pytest
-from playwright.sync_api import sync_playwright, Page, Playwright
+from _pytest.fixtures import SubRequest
+from playwright.sync_api import Page, Playwright
 
-from pages.authentication.registration_page import RegistrationPage
-from _pytest.fixtures import SubRequest  # Импортируем класс SubRequest для аннотации
-import allure
-
-from tools.playwright.pages import initialize_playwright_page
 from config import settings
+from pages.authentication.registration_page import RegistrationPage
+from tools.playwright.pages import initialize_playwright_page
 from tools.routes import AppRoute
 
 
@@ -17,8 +15,6 @@ def page(request: SubRequest, playwright: Playwright) -> Page:
         test_name=request.node.name,
         browser_type=request.param
     )
-    # перенесли основной код фикстуры chromium_page и chromium_page_with_state ниже в ./tools/playwright/pages.py
-    # про yield from почитать https://stepik.org/lesson/1453356/step/5?unit=1472484
 
 
 @pytest.fixture(scope="session")
